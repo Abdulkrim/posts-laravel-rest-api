@@ -11,8 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // إضافة Middleware الخاص بتحديد اللغة
+    $middleware->append(\App\Http\Middleware\LocalizationMiddleware::class);
     // استثناء CSRF لبعض المسارات
-    //    $middleware->remove(VerifyCsrfToken::class); 
+    // $middleware->remove(VerifyCsrfToken::class); 
     $middleware->validateCsrfTokens(
         except : [
         'api/*'

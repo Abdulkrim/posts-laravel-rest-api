@@ -13,5 +13,7 @@ return [
     'post_found_successfully' => 'تم العثور على المنشور بنجاح',
     'post_updated_successfully' => 'تم تحديث المنشور بنجاح',
     'post_deleted_successfully' => 'تم حذف المنشور بنجاح',
+    'post_geted_successfully' => 'تم الحصول على جميع المنشورات',
+
     // يمكنك إضافة المزيد من الترجمات هنا
 ];

@@ -13,5 +13,7 @@ return [
     'post_found_successfully' => 'Post found successfully',
     'post_updated_successfully' => 'Post updated successfully',
     'post_deleted_successfully' => 'Post deleted successfully',
+    'post_geted_successfully' => 'Post geted successfully',
+
     // يمكنك إضافة المزيد من الترجمات هنا
 ];

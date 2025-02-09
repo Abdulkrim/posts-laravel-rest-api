@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\App;
 
 class PostController extends Controller
 {
@@ -13,7 +14,29 @@ class PostController extends Controller
     public function index()
     {
         // return Post::all();
-        return Post::with('user')->get();
+        $posts = Post::with('user')->get();
+
+        return response()->json([
+            'message' => __('messages.post_geted_successfully'),
+            'data' => $posts->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'title' => $post->title,
+                    'body' => $post->body,
+                    // 'user_id' => $post->user_id,
+                    'created_at' => $post->created_at,
+                    'updated_at' => $post->updated_at,
+                    'user' => [
+                        'id' => $post->user->id,
+                        'name' => $post->user->name,
+                        'email' => $post->user->email,
+                        'email_verified_at' => $post->user->email_verified_at,
+                        'created_at' => $post->user->created_at,
+                        'updated_at' => $post->user->updated_at,
+                    ]
+                ];
+            })
+        ]);
     }
 
     /**
@@ -22,22 +45,31 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $post = Post::create($request->all());
-
         return response()->json([
             'message' => __('messages.post_created_successfully'),
-            'post' => $post
+            'data' => [
+                'id' => $post->id,
+                'title' => $post->title,
+                'body' =>  $post->body,
+            ]
         ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         $post = Post::findOrFail($id);
         return response()->json([
             'message' => __('messages.post_found_successfully'),
-            'post' => $post
+            'data' => [
+                'id' => $post->id,
+                'title' => $post->title,
+                'body' => $post->body,
+            ]
+            // لا تستخدم مع الترجمة
+            // 'data' =>$post
         ], 200);
     }
 
@@ -51,7 +83,11 @@ class PostController extends Controller
 
         return response()->json([
             'message' => __('messages.post_updated_successfully'),
-            'post' => $post
+            'data' => [
+                'id' => $post->id,
+                'title' => $post->title,
+                'body' => $post->body,
+            ]
         ], 200);
     }
 
