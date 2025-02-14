@@ -45,13 +45,15 @@ class UserController extends Controller
             'password' => 'required|string',
         ]);
 
-        App::setLocale($request->header('Accept-Language', 'en'));  // تغيير اللغة بناءً على الـ Header
-
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => __('messages.invalid_credentials')], 401);
         }
+        // حذف التوكنات القديمة قبل إنشاء توكن جديد
+        // $user->tokens()->delete();
+        //حذف التوكن الحالي قبل إنشاء توكن جديد
+        // $user->currentAccessToken()->delete();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
